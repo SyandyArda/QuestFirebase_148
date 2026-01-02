@@ -11,6 +11,8 @@ composeBom = "2024.09.00"
 firebaseBom = "34.7.0"
 coroutinesPlayServices = "1.10.2"
 firebaseFirestoreKtx = "26.0.2"
+googleServices = "4.4.2"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,3 +44,4 @@ firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-fires
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

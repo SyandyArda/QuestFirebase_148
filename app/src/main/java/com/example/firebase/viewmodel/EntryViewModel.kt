@@ -30,7 +30,15 @@ class EntryViewModel(private val repositorySiswa: RepositorySiswa): ViewModel() 
     /* Fungsi untuk menyimpan data yang di-entry */
     suspend fun addSiswa() {
         if (validasiInput()) {
-            repositorySiswa.postDataSiswa(uiStateSiswa.detailSiswa.toDataSiswa())
+            try {
+                repositorySiswa.postDataSiswa(uiStateSiswa.detailSiswa.toDataSiswa())
+                println("✅ Submit berhasil!")
+            } catch (e: Exception) {
+                println("❌ Submit gagal: ${e.message}")
+                e.printStackTrace()
+            }
+        } else {
+            println("⚠️ Validasi gagal - pastikan semua field terisi")
         }
     }
 }
