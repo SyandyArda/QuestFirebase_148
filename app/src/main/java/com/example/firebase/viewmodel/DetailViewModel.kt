@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebase.modeldata.Siswa
 import com.example.firebase.repositori.RepositorySiswa
+import com.example.firebase.view.route.DestinasiDetail
 import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
 import java.io.IOException
@@ -40,7 +41,7 @@ class DetailViewModel(
         viewModelScope.launch {
             statusUIDetail = StatusUIDetail.loading
             statusUIDetail = try {
-                StatusUIDetail.Success(satusiswa = repositorySiswa.getSatuSiswa(idSiswa))
+                StatusUIDetail.Success(satusiswa = repositorySiswa.getSatuDataSiswa(idSiswa))
             } catch (e: IOException) {
                 StatusUIDetail.Error
             } catch (e: Exception) {
@@ -51,7 +52,7 @@ class DetailViewModel(
 
     suspend fun hapusSatuSiswa() {
         try {
-            repositorySiswa.hapusSatuSiswa(idSiswa)
+            repositorySiswa.hapusDataSiswa(idSiswa)
             println("Sukses Hapus Data: $idSiswa")
         } catch (e: Exception) {
             println("Gagal Hapus Data: ${e.message}")

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -56,22 +58,22 @@ fun DetailSiswaScreen(
             )
         },
         floatingActionButton = {
-            val uiState = viewModel.statusUIDetail
-            FloatingActionButton(
-                onClick = {
-                    when (uiState) {
-                        is StatusUIDetail.Success ->
-                            navigateToEditItem(uiState.satusiswa!!.id.toInt())
-                        else -> {}
-                    }
-                },
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(R.string.update),
-                )
+            if (viewModel.statusUIDetail is StatusUIDetail.Success) {
+                val uiState = viewModel.statusUIDetail as StatusUIDetail.Success
+                FloatingActionButton(
+                    onClick = {
+                        uiState.satusiswa?.let { siswa ->
+                            navigateToEditItem(siswa.id.toInt())
+                        }
+                    },
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = stringResource(R.string.update),
+                    )
+                }
             }
         },
         modifier = modifier
@@ -105,30 +107,46 @@ private fun BodyDetailDataSiswa(
         var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
 
         when(statusUIDetail) {
-            is StatusUIDetail.Success -> DetailDataSiswa(
-                siswa = statusUIDetail.satusiswa,
-                modifier = Modifier.fillMaxWidth()
-            )
-            else -> {}
-        }
+            is StatusUIDetail.loading -> {
+                Text(
+                    text = "Memuat data...",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+                )
+            }
+            is StatusUIDetail.Success -> {
+                DetailDataSiswa(
+                    siswa = statusUIDetail.satusiswa,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                
+                OutlinedButton(
+                    onClick = { deleteConfirmationRequired = true },
+                    shape = MaterialTheme.shapes.small,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(stringResource(R.string.delete))
+                }
 
-        OutlinedButton(
-            onClick = { deleteConfirmationRequired = true },
-            shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(R.string.delete))
-        }
-
-        if (deleteConfirmationRequired) {
-            DeleteConfirmationDialog(
-                onDeleteConfirm = {
-                    deleteConfirmationRequired = false
-                    onDelete()
-                },
-                onDeleteCancel = { deleteConfirmationRequired = false },
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
-            )
+                if (deleteConfirmationRequired) {
+                    DeleteConfirmationDialog(
+                        onDeleteConfirm = {
+                            deleteConfirmationRequired = false
+                            onDelete()
+                        },
+                        onDeleteCancel = { deleteConfirmationRequired = false },
+                        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+                    )
+                }
+            }
+            is StatusUIDetail.Error -> {
+                Text(
+                    text = "Gagal memuat data siswa",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+                )
+            }
         }
     }
 }

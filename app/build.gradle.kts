@@ -7,9 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.firebase"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.firebase"
@@ -66,6 +64,10 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.savedstate)
     implementation(libs.androidx.material3)
+    
+    // Material Icons Extended
+    implementation("androidx.compose.material:material-icons-extended:1.7.6")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

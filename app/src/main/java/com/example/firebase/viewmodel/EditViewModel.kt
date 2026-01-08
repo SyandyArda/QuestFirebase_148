@@ -1,5 +1,6 @@
 package com.example.firebase.viewmodel
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
@@ -7,8 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebase.modeldata.DetailSiswa
 import com.example.firebase.modeldata.UIStateSiswa
+import com.example.firebase.modeldata.toDataSiswa
+import com.example.firebase.modeldata.toUiStateSiswa
 import com.example.firebase.repositori.RepositorySiswa
 import com.example.firebase.view.route.DestinasiDetail
+import kotlinx.coroutines.launch
 
 class EditViewModel(
     savedStateHandle: SavedStateHandle,
@@ -23,8 +27,8 @@ class EditViewModel(
 
     init {
         viewModelScope.launch {
-            uiStateSiswa = repositorySiswa.getSatuSiswa(idSiswa)!!
-                .toUIStateSiswa(true)
+            uiStateSiswa = repositorySiswa.getSatuDataSiswa(idSiswa)!!
+                .toUiStateSiswa(true)
         }
     }
 
@@ -45,7 +49,7 @@ class EditViewModel(
     suspend fun editSatuSiswa() {
         if (validasiInput(uiStateSiswa.detailSiswa)) {
             try {
-                repositorySiswa.editSatuSiswa(
+                repositorySiswa.editDataSiswa(
                     idSiswa,
                     uiStateSiswa.detailSiswa.toDataSiswa()
                 )
