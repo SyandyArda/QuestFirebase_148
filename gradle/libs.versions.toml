@@ -12,6 +12,7 @@ firebaseBom = "34.7.0"
 coroutinesPlayServices = "1.10.2"
 firebaseFirestoreKtx = "26.0.2"
 googleServices = "4.4.2"
+lifecycleViewmodelSavedstate = "2.10.0"
 
 
 [libraries]
@@ -38,6 +39,7 @@ firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutinesPlayServices" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+androidx-lifecycle-viewmodel-savedstate = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycleViewmodelSavedstate" }
 
 
 [plugins]
